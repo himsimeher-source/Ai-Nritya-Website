@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dance Styles — Nritya AI</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <!-- Background Dance Atmosphere -->
+    <img class="image-gradient" src="download (10).jpg" alt="gradient" onerror="this.style.display='none'">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+
+        <!-- Header (strictly NO Contact) -->
+        <header>
+            <a href="index1.html" class="logo-wrap">
+                <div class="logo-badge">🪷</div>
+                <h1 class="logo">AI <span>Nritya</span></h1>
+            </a>
+
+            <nav>
+                <a href="index1.html">Home</a>
+                <a href="style.html" class="active">Style</a>
+                <a href="about.html">About</a>
+                <a href="information.html">Information</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="leaderboard.html">Leaderboard</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="Login.html" class="btn">Log in</a>
+                <a href="SignUp.html" class="btn-signing">Sign up</a>
+            </div>
+        </header>
+
+        <!-- Page Hero -->
+        <section class="page-hero" data-aos="fade-down" data-aos-duration="1000">
+            <h1>Pick Your Dance Style</h1>
+            <p>Every style has its own rhythm, kinetic discipline, and rules. Nritya AI adapts its computer vision pose scoring to match the specific traditions and grooves of what you're learning.</p>
+        </section>
+
+        <!-- 6 Dance Style Cards Grid -->
+        <div class="style-grid" data-aos="fade-up" data-aos-duration="1200">
+
+            <!-- 1. Bharatnatyam -->
+            <div class="style-card" style="--card-gradient: linear-gradient(90deg, #e2b45c, #8a2b2b);">
+                <div class="style-card-banner">
+                    <img src="images/bharatnatyam.png" alt="Bharatnatyam Classical Dance" class="pos-top" onerror="this.src='images/bharatnatyam.jpg'">
+                    <span class="difficulty-badge banner-badge">Classical Tradition</span>
+                </div>
+                <h3>Bharatnatyam</h3>
+                <p class="style-tagline">Temple rhythm, geometric precision & sacred mudras</p>
+                <p class="style-desc">
+                    Master the fixed 7-Adavu classical curriculum: Araimandi stance, Tatta, Natta, Visharu, Tatti Metti, Kuditta Metta, and Kattu Adavu with real-time knee-turnout and mudra accuracy tracking.
+                </p>
+                <div class="style-card-footer">
+                    <span class="lessons-counter">📚 7 Structured Lessons</span>
+                    <a href="tutor.html?style=bharatnatyam" class="btn-learn-style">Start Learning &gt;</a>
+                </div>
+            </div>
+
+            <!-- 2. Kathak -->
+            <div class="style-card" style="--card-gradient: linear-gradient(90deg, #c96a3f, #4a2a13);">
+                <div class="style-card-banner">
+                    <img src="images/kathak.png" alt="Kathak Storytelling Dance" class="pos-kathak" onerror="this.src='images/kathak.jpg'">
+                    <span class="difficulty-badge banner-badge">Classical Storytelling</span>
+                </div>
+                <h3>Kathak</h3>
+                <p class="style-tagline">Lightning pirouettes (Chakkars) & Teentaal Tatkar</p>
+                <p class="style-desc">
+                    Learn North Indian rhythmic mastery: Samapada stance, percussive Tatkar footwork to Teentaal 16-beat cycles, fluid Hastak arm expansions, and crisp 360° Chakkars with camera spotting assistance.
+                </p>
+                <div class="style-card-footer">
+                    <span class="lessons-counter">📚 6 Structured Lessons</span>
+                    <a href="tutor.html?style=kathak" class="btn-learn-style">Start Learning &gt;</a>
+                </div>
+            </div>
+
+            <!-- 3. Hip-Hop -->
+            <div class="style-card" style="--card-gradient: linear-gradient(90deg, #ff9933, #2b1c14);">
+                <div class="style-card-banner">
+                    <img src="images/hiphop.jpg" alt="Hip-Hop Street Dance" onerror="this.src='https://images.unsplash.com/photo-1535525153412-5a42439a210d?auto=format&fit=crop&w=800&q=80'">
+                    <span class="difficulty-badge banner-badge">Street & Urban</span>
+                </div>
+                <h3>Hip-Hop</h3>
+                <p class="style-tagline">Grooves, bounce, popping isolations & street routines</p>
+                <p class="style-desc">
+                    Build street credibility with foundational bounce mechanics, chest/hip isolations, party step drills, and full 8-count beat-drop choreography breakdowns with rhythm detection.
+                </p>
+                <div class="style-card-footer">
+                    <span class="lessons-counter">📚 5 Choreography Drills</span>
+                    <a href="tutor.html?style=hiphop" class="btn-learn-style">Start Learning &gt;</a>
+                </div>
+            </div>
+
+            <!-- 4. FreeStyle -->
+            <div class="style-card" style="--card-gradient: linear-gradient(90deg, #7b470e, #2b1c14);">
+                <div class="style-card-banner">
+                    <img src="images/freestyle.jpg" alt="Freestyle Creative Dance" onerror="this.src='https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80'">
+                    <span class="difficulty-badge banner-badge">Creative Movement</span>
+                </div>
+                <h3>FreeStyle</h3>
+                <p class="style-tagline">Spontaneous rhythm tracking & fluid kinetic expression</p>
+                <p class="style-desc">
+                    No rigid rules — unlock pure musicality. The AI monitors your flow states, vertical level transitions (high, medium, floor), and kinetic movement variety as you dance to any song.
+                </p>
+                <div class="style-card-footer">
+                    <span class="lessons-counter">📚 4 Flow Sessions</span>
+                    <a href="tutor.html?style=freestyle" class="btn-learn-style">Start Learning &gt;</a>
+                </div>
+            </div>
+
+            <!-- 5. Sangeet -->
+            <div class="style-card" style="--card-gradient: linear-gradient(90deg, #ecc8a3, #983131);">
+                <div class="style-card-banner">
+                    <img src="images/sangeet.jpg" alt="Sangeet Celebration Dance" onerror="this.src='https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80'">
+                    <span class="difficulty-badge banner-badge">Festive & Bollywood</span>
+                </div>
+                <h3>Sangeet</h3>
+                <p class="style-tagline">Wedding entries, celebration hook steps & Bollywood joy</p>
+                <p class="style-desc">
+                    High-energy celebration routines tailored for weddings and parties. Learn energetic Thumka hip pops, Bhangra shoulder bounces, expressive spins, and crowd-pleasing hook steps.
+                </p>
+                <div class="style-card-footer">
+                    <span class="lessons-counter">📚 5 Event Routines</span>
+                    <a href="tutor.html?style=sangeet" class="btn-learn-style">Start Learning &gt;</a>
+                </div>
+            </div>
+
+            <!-- 6. Western -->
+            <div class="style-card" style="--card-gradient: linear-gradient(90deg, #a15c1e, #5b3417);">
+                <div class="style-card-banner">
+                    <img src="images/western.jpg" alt="Western Contemporary Dance" onerror="this.src='https://images.unsplash.com/photo-1518834107812-67b0b7c58434?auto=format&fit=crop&w=800&q=80'">
+                    <span class="difficulty-badge banner-badge">Contemporary & Modern</span>
+                </div>
+                <h3>Western / Contemporary</h3>
+                <p class="style-tagline">Lyrical lines, core balance, arabesques & fluid sweeps</p>
+                <p class="style-desc">
+                    Refine contemporary technique: sustained balances, lyrical floor transitions, elongated arabesques, and emotional phrasing calibrated with skeletal alignment sensors.
+                </p>
+                <div class="style-card-footer">
+                    <span class="lessons-counter">📚 5 Technique Labs</span>
+                    <a href="tutor.html?style=western" class="btn-learn-style">Start Learning &gt;</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2026 Nritya AI. Practice with camera feedback and master every style.
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="dance-data.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="pose-engine.js"></script>
+    <script src="app.js"></script>
+    <script>
+        AOS.init({ once: true });
+    </script>
+
+</body>
+</html>

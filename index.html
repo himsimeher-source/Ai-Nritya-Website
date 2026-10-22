@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nritya AI — Sweat and Enjoy the Rhythm To the World of Dance</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <!-- Background Dance Atmosphere -->
+    <img class="image-gradient" src="download (10).jpg" alt="Dance Atmosphere Gradient" onerror="this.style.display='none'">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+
+        <!-- Top Navigation -->
+        <header>
+            <a href="index.html" class="logo-wrap" data-aos="fade-down" data-aos-duration="1200">
+                <div class="logo-badge">🪷</div>
+                <h1 class="logo">AI <span>Nritya</span></h1>
+            </a>
+
+            <!-- Navigation: Home, Style, About, Information (Contact strictly omitted) -->
+            <nav data-aos="fade-down" data-aos-duration="1500">
+                <a href="index.html" class="active">Home</a>
+                <a href="style.html">Style</a>
+                <a href="about.html">About</a>
+                <a href="information.html">Information</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="leaderboard.html">Leaderboard</a>
+            </nav>
+
+            <!-- Dynamic Authentication Actions (Managed by app.js) -->
+            <div class="header-actions" data-aos="fade-down" data-aos-duration="1800">
+                <a href="Login.html" class="btn">Log in</a>
+                <a href="SignUp.html" class="btn-signing">Sign up</a>
+            </div>
+        </header>
+
+        <!-- Main Hero Section -->
+        <main class="hero-main">
+            <div class="hero-content">
+
+                <!-- Eyebrow Badge with Animated Border -->
+                <div data-aos="fade-zoom-in"
+                     data-aos-easing="ease-in-back"
+                     data-aos-delay="200"
+                     data-aos-duration="1200"
+                     class="tagbox">
+                    <span class="tag">Introducing NrityaAI</span>
+                </div>
+
+                <!-- Main Hero Headline -->
+                <h1 data-aos="fade-zoom-in"
+                    data-aos-easing="ease-in-back"
+                    data-aos-delay="300"
+                    data-aos-duration="1400">
+                    Sweat and Enjoy the <span class="highlight">Rhythm</span><br>
+                    To the World of Dance
+                </h1>
+
+                <!-- Hero Description -->
+                <p class="description"
+                   data-aos="fade-zoom-in"
+                   data-aos-easing="ease-in-back"
+                   data-aos-delay="400"
+                   data-aos-duration="1500">
+                    Learning dance has always been an art of repetition — watch, try, adjust, try again. NrityaAI brings that same discipline into the browser. It breaks any video or song into steps, watches your posture through the camera, and shows you exactly where your movement drifts from the form — so every practice session actually teaches you something.
+                </p>
+
+                <!-- Hero Action Buttons -->
+                <div class="hero-buttons"
+                     data-aos="fade-zoom-in"
+                     data-aos-easing="ease-in-back"
+                     data-aos-delay="500"
+                     data-aos-duration="1600">
+                    <a href="style.html" class="btn-get-started">Style &gt;</a>
+                    <a href="tutor.html" class="btn-signing-main btn-get-started-route">Get Started &gt;&gt;</a>
+                </div>
+
+            </div>
+
+            <!-- Right Visual: 3D Spline Interactive Dance Avatar & Status -->
+            <div class="model-wrap" data-aos="fade-left" data-aos-duration="1600">
+                <spline-viewer class="robot" url="https://prod.spline.design/vgCZ1WWenFLdhUQ8/scene.splinecode"></spline-viewer>
+                
+                <!-- Floating Live AI Status Badge -->
+                <div class="avatar-badge-card">
+                    <div class="dot"></div>
+                    <div class="text">
+                        <strong>AI Tutor "Nritya" Active</strong>
+                        Real-time pose feedback & beat sync ready
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2026 Nritya AI. Designed with modern AI, Computer Vision & Dance Discipline.
+        </footer>
+
+    </div>
+
+    <!-- Core Scripts -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.98/build/spline-viewer.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="dance-data.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="pose-engine.js"></script>
+    <script src="app.js"></script>
+    <script>
+        AOS.init({ once: true });
+    </script>
+
+</body>
+</html>

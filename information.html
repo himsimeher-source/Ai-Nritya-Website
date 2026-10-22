@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information & Reviews — Nritya AI</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <img class="image-gradient" src="download (10).jpg" alt="gradient" onerror="this.style.display='none'">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+
+        <!-- Header (Strictly NO Contact) -->
+        <header>
+            <a href="index1.html" class="logo-wrap">
+                <div class="logo-badge">🪷</div>
+                <h1 class="logo">AI <span>Nritya</span></h1>
+            </a>
+
+            <nav>
+                <a href="index1.html">Home</a>
+                <a href="style.html">Style</a>
+                <a href="about.html">About</a>
+                <a href="information.html" class="active">Information</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="leaderboard.html">Leaderboard</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="Login.html" class="btn">Log in</a>
+                <a href="SignUp.html" class="btn-signing">Sign up</a>
+            </div>
+        </header>
+
+        <!-- Page Hero -->
+        <section class="page-hero" data-aos="fade-down">
+            <h1>Dancer Reviews & Information</h1>
+            <p>Discover how dancers, instructors, and classical practitioners around the world utilize Nritya AI to accelerate muscle memory and refine technique.</p>
+        </section>
+
+        <!-- Verified Reviews Section -->
+        <section data-aos="fade-up">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 0.5rem;">What Our Dancers Say</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Real feedback from students mastering choreography and classical Adavus</p>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-quote">“Nritya AI made learning choreography much easier. Pasting a YouTube video and getting it broken down into 4-count steps changed the game for me.”</p>
+                    <div class="reviewer-meta">
+                        <strong>Rhea Kapoor</strong>
+                        <span>Hip-Hop & Street Dance Student</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-quote">“I loved the step-by-step practice mode. Being able to toggle between front and side camera angles helped me see exactly how my Araimandi was falling short.”</p>
+                    <div class="reviewer-meta">
+                        <strong>Meenakshi Natarajan</strong>
+                        <span>Bharatnatyam Practitioner</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-quote">“The posture feedback helped me understand my mistakes in real time. The camera flagged my drooped left elbow immediately before it became bad muscle memory.”</p>
+                    <div class="reviewer-meta">
+                        <strong>Arjun Sengupta</strong>
+                        <span>Kathak & Contemporary Dancer</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How AI Helps Dancers & Key Benefits -->
+        <section style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-card); padding: 2.8rem; margin: 3rem 0; backdrop-filter: blur(12px);" data-aos="fade-up">
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent-orange);">How AI Transforms Dance Training</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-cream);">🎯 Instant Kinetic Biofeedback</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Normally, a dancer only gets correction during weekly class. Nritya AI provides continuous joint angle validation in your bedroom mirror so you never cement bad posture.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-cream);">⏳ Repetition Without Fatigue</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Rewatch any step 50 times in 0.5x slow-motion. The AI never gets tired of repeating the counts or waiting for you to find your balance.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-cream);">🪷 Classical Tradition Preservation</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Rigid Shastric Adavus and bols are codified into the curriculum. The AI checks knee turnout angles and Hastas without altering sacred nuances.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-cream);">🔒 100% On-Device Privacy</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Your webcam stream is processed locally inside your browser using MediaPipe Pose. No raw video feed is stored or transmitted to external servers.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frequently Asked Questions -->
+        <section data-aos="fade-up">
+            <h2 style="text-align: center; font-size: 2rem; margin-bottom: 0.5rem;">Frequently Asked Questions</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Everything you need to know about practicing with Nritya AI</p>
+
+            <div class="faq-list">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Can I paste any YouTube dance video?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! You can paste any standard YouTube URL (including Shorts and share links) or upload your own video file (.mp4, .webm). The AI will process the performance, isolate the key poses, and segment the routine into numbered steps with counts.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Do I need a special camera or motion capture suit?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Not at all. Nritya AI works directly with standard laptop webcams, tablet cameras, or smartphone lenses. MediaPipe Computer Vision extracts 33 3D skeletal landmarks in real time right in your browser.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>How are classical Adavus graded?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        For Bharatnatyam and Kathak, the model evaluates anatomical angular standards—such as Araimandi knee flexion (~115°), Natyarambha arm level, and Tatkar sole strike acoustic resonance—comparing your posture against classical dance master keyframes.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Is my practice video saved or uploaded to the cloud?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Never. All camera posture processing is performed client-side on your local device. Your video feed is strictly private and never uploaded or stored.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2026 Nritya AI. Designed with modern AI, Computer Vision & Dance Discipline.
+        </footer>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="dance-data.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="pose-engine.js"></script>
+    <script src="app.js"></script>
+    <script>
+        AOS.init({ once: true });
+
+        function toggleFaq(el) {
+            el.classList.toggle('open');
+            const arrow = el.querySelector('.faq-question span:last-child');
+            if (arrow) arrow.textContent = el.classList.contains('open') ? '▲' : '▼';
+        }
+    </script>
+
+</body>
+</html>

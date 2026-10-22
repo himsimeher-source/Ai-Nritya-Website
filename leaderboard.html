@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy Leaderboard — Nritya AI</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <img class="image-gradient" src="download (10).jpg" alt="gradient" onerror="this.style.display='none'">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header>
+            <a href="index1.html" class="logo-wrap">
+                <div class="logo-badge">🪷</div>
+                <h1 class="logo">AI <span>Nritya</span></h1>
+            </a>
+
+            <nav>
+                <a href="index1.html">Home</a>
+                <a href="style.html">Style</a>
+                <a href="about.html">About</a>
+                <a href="information.html">Information</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="leaderboard.html" class="active">Leaderboard</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="Login.html" class="btn">Log in</a>
+                <a href="SignUp.html" class="btn-signing">Sign up</a>
+            </div>
+        </header>
+
+        <!-- Page Hero -->
+        <section class="page-hero" data-aos="fade-down">
+            <h1>Nritya Academy Leaderboard</h1>
+            <p>Celebrate discipline and dedication. Earn XP through step practice, camera posture accuracy, and dance quizzes.</p>
+        </section>
+
+        <!-- Leaderboard Wrapper -->
+        <div class="leaderboard-wrap" data-aos="fade-up">
+
+            <!-- Top 3 Podium Cards -->
+            <div class="podium-row" id="podium-container">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Full Rankings Table -->
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Rank</th>
+                        <th>Dancer</th>
+                        <th>Academy Badge</th>
+                        <th>Daily Streak</th>
+                        <th>Lessons</th>
+                        <th style="text-align: right;">Total XP</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-tbody">
+                    <!-- Rows populated dynamically with current user highlight -->
+                </tbody>
+            </table>
+
+            <!-- Invite Friends Banner -->
+            <div class="invite-friends-banner">
+                <div>
+                    <h3>💌 Invite a Friend to Learn Together</h3>
+                    <p>Earn +150 bonus XP when a friend starts their first AI camera practice session.</p>
+                </div>
+                <button class="btn-signing-main" onclick="window.nrityaApp.openInviteModal()">
+                    Invite a Friend &gt;&gt;
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2026 Nritya AI. Designed with modern AI, Computer Vision & Dance Discipline.
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="dance-data.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="pose-engine.js"></script>
+    <script src="app.js"></script>
+    <script>
+        AOS.init({ once: true });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLeaderboard();
+        });
+
+        function renderLeaderboard() {
+            let board = [...window.DANCE_DATA.leaderboard];
+            const currentUser = window.nrityaApp.currentUser;
+
+            // If user is logged in, insert or update user in leaderboard
+            if (currentUser) {
+                const existingIdx = board.findIndex(u => u.name.toLowerCase() === currentUser.name.toLowerCase());
+                const userEntry = {
+                    rank: 0,
+                    name: `${currentUser.name} (You)`,
+                    xp: currentUser.xp || 450,
+                    streak: currentUser.streak || 1,
+                    lessonsCompleted: (currentUser.completedLessons && currentUser.completedLessons.length) || 3,
+                    badge: '💃 Rising Star',
+                    isCurrentUser: true
+                };
+
+                if (existingIdx !== -1) {
+                    board[existingIdx] = userEntry;
+                } else {
+                    board.push(userEntry);
+                }
+            }
+
+            // Sort by XP descending
+            board.sort((a, b) => b.xp - a.xp);
+            board.forEach((item, idx) => item.rank = idx + 1);
+
+            // Render Top 3 Podium
+            const podiumEl = document.getElementById('podium-container');
+            const top3 = board.slice(0, 3);
+            podiumEl.innerHTML = `
+                <div class="podium-card rank-2">
+                    <div class="podium-avatar">🥈</div>
+                    <div class="podium-name">${top3[1] ? top3[1].name : 'Priya S.'}</div>
+                    <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.4rem;">${top3[1] ? top3[1].badge : 'Natya Star'}</div>
+                    <div class="podium-xp">${top3[1] ? top3[1].xp : 2420} XP</div>
+                    <div style="font-size: 0.8rem; color: var(--accent-cream); margin-top: 0.3rem;">🔥 ${top3[1] ? top3[1].streak : 11} Day Streak</div>
+                </div>
+
+                <div class="podium-card rank-1">
+                    <div class="podium-avatar">👑</div>
+                    <div class="podium-name" style="font-size: 1.25rem;">${top3[0] ? top3[0].name : 'Aarav S.'}</div>
+                    <div style="font-size: 0.85rem; color: var(--accent-orange); margin-bottom: 0.4rem;">${top3[0] ? top3[0].badge : 'Guru'}</div>
+                    <div class="podium-xp" style="font-size: 1.3rem;">${top3[0] ? top3[0].xp : 2850} XP</div>
+                    <div style="font-size: 0.85rem; color: var(--accent-gold); margin-top: 0.3rem;">🔥 ${top3[0] ? top3[0].streak : 14} Day Streak</div>
+                </div>
+
+                <div class="podium-card rank-3">
+                    <div class="podium-avatar">🥉</div>
+                    <div class="podium-name">${top3[2] ? top3[2].name : 'Rohan M.'}</div>
+                    <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.4rem;">${top3[2] ? top3[2].badge : 'Rhythm Master'}</div>
+                    <div class="podium-xp">${top3[2] ? top3[2].xp : 2190} XP</div>
+                    <div style="font-size: 0.8rem; color: var(--accent-cream); margin-top: 0.3rem;">🔥 ${top3[2] ? top3[2].streak : 9} Day Streak</div>
+                </div>
+            `;
+
+            // Render Table
+            const tbody = document.getElementById('leaderboard-tbody');
+            tbody.innerHTML = board.map(dancer => `
+                <tr class="${dancer.isCurrentUser ? 'current-user-row' : ''}">
+                    <td style="font-weight: 700; color: ${dancer.rank <= 3 ? 'var(--accent-orange)' : 'var(--text-muted)'};">#${dancer.rank}</td>
+                    <td style="font-weight: 600;">
+                        ${dancer.name}
+                        ${dancer.isCurrentUser ? '<span style="background: var(--accent-orange); color: #1a0d02; font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 8px; margin-left: 6px;">YOU</span>' : ''}
+                    </td>
+                    <td><span style="background: rgba(255,255,255,0.08); padding: 0.25rem 0.6rem; border-radius: 12px; font-size: 0.82rem;">${dancer.badge || '⭐ Dancer'}</span></td>
+                    <td>🔥 ${dancer.streak} days</td>
+                    <td>📚 ${dancer.lessonsCompleted}</td>
+                    <td style="text-align: right; font-weight: 800; color: var(--accent-gold);">${dancer.xp} XP</td>
+                </tr>
+            `).join('');
+        }
+    </script>
+
+</body>
+</html>

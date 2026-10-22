@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dance Tutor Studio — Nritya AI</title>
+    <link rel="stylesheet" href="style1.css">
+    <!-- MediaPipe Pose CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <img class="image-gradient" src="download (10).jpg" alt="gradient" onerror="this.style.display='none'">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+
+        <!-- Top Header Navigation (No Contact) -->
+        <header>
+            <a href="index1.html" class="logo-wrap">
+                <div class="logo-badge">🪷</div>
+                <h1 class="logo">AI <span>Nritya</span></h1>
+            </a>
+
+            <nav>
+                <a href="index1.html">Home</a>
+                <a href="style.html">Style</a>
+                <a href="about.html">About</a>
+                <a href="information.html">Information</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="leaderboard.html">Leaderboard</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="Login.html" class="btn">Log in</a>
+                <a href="SignUp.html" class="btn-signing">Sign up</a>
+            </div>
+        </header>
+
+        <!-- Tutor Studio Header Bar: Style Switcher -->
+        <div class="tutor-studio-wrap">
+
+            <div class="tutor-header-bar" data-aos="fade-down">
+                <div>
+                    <h2 style="font-size: 1.4rem; margin-bottom: 0.2rem;">Studio Mode: <span id="active-style-label" style="color: var(--accent-orange);">Bharatnatyam</span></h2>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">AI Model calibrated for posture analysis and rhythm synchronization</span>
+                </div>
+
+                <div class="style-selector-pills" id="style-pills-container">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- YouTube Video Input & Upload Panel (Core Feature) -->
+            <section class="video-input-panel" data-aos="fade-up">
+                <h2>🎥 AI Dance Video Analyzer</h2>
+                <p class="subhead">Paste any dance video from YouTube, or upload your own choreography video. Our AI segments the performance into numbered step-by-step lessons, aligns the beats, and grades your posture in real time.</p>
+
+                <div class="youtube-input-group">
+                    <input type="url" id="youtube-url-input" placeholder="Paste YouTube Dance Video Link (e.g. https://www.youtube.com/watch?v=...)" value="https://www.youtube.com/watch?v=kSqWpW5O7zU">
+                    <button class="btn-analyze-large" id="btn-analyze-video" onclick="startVideoAnalysis()">
+                        <span>⚡</span> Analyze Dance
+                    </button>
+                </div>
+
+                <div class="upload-preset-row">
+                    <div class="presets-chips">
+                        <span class="presets-label">Quick Presets:</span>
+                        <button class="preset-btn" onclick="applyPresetVideo('bharatnatyam')">🪷 Bharatnatyam Adavu</button>
+                        <button class="preset-btn" onclick="applyPresetVideo('kathak')">💃 Kathak Tatkar</button>
+                        <button class="preset-btn" onclick="applyPresetVideo('hiphop')">🕺 Hip-Hop Bounce</button>
+                        <button class="preset-btn" onclick="applyPresetVideo('sangeet')">🎉 Sangeet Celebration</button>
+                    </div>
+
+                    <div class="upload-video-btn-wrap">
+                        <input type="file" id="local-video-file-input" accept="video/*" onchange="handleFileUpload(event)">
+                        <label for="local-video-file-input" class="btn-upload-file">
+                            📁 Upload Dance Video
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Studio Split View (Choreography Breakdown + Camera HUD + AI Tutor) -->
+            <div class="studio-layout-grid">
+
+                <!-- Left Column: Video Player & Step Breakdown -->
+                <div class="choreography-player-panel" data-aos="fade-right">
+                    
+                    <!-- Video Embed / Player -->
+                    <div class="video-player-container" id="video-player-box">
+                        <iframe id="youtube-iframe" src="https://www.youtube.com/embed/kSqWpW5O7zU?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <video id="local-video-player" controls style="display: none;"></video>
+                    </div>
+
+                    <!-- Step Navigation Controls -->
+                    <div class="step-navigation-bar">
+                        <div class="step-indicator-pill" id="step-progress-indicator">
+                            Step 1 / 4
+                        </div>
+
+                        <div class="step-nav-controls">
+                            <button class="btn-ctrl" onclick="prevStep()">◀ Prev</button>
+                            <button class="btn-ctrl" onclick="replayStep()">🔄 Replay</button>
+                            <button class="btn-ctrl" onclick="nextStep()">Next ▶</button>
+                            <select class="speed-select" id="playback-speed-select" onchange="changeSpeed(this.value)">
+                                <option value="1">1.0x Normal</option>
+                                <option value="0.75">0.75x Slow</option>
+                                <option value="0.5">0.5x Half-Speed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Active Step Card -->
+                    <div class="active-step-card" id="step-card-display">
+                        <div class="step-badge-row">
+                            <span class="count-badge" id="step-count-badge">Count: 1-2</span>
+                            <div class="meta-badges">
+                                <span class="meta-pill" id="step-timestamp-pill">⏱ 00:04</span>
+                                <span class="meta-pill" id="step-duration-pill">⏳ 4.0s</span>
+                                <span class="meta-pill" id="step-difficulty-pill" style="color: var(--accent-orange); font-weight: 600;">Fundamental</span>
+                            </div>
+                        </div>
+
+                        <h3 id="step-title-display">Step 1: Araimandi Stance Alignment</h3>
+                        <p class="step-instruction" id="step-desc-display">
+                            Lower the torso into a deep half-sit with heels touching and toes pointed outward at 180 degrees. Keep thighs rotated outward from hip sockets.
+                        </p>
+
+                        <!-- Angle Toggle (Front vs Side Angle - Vital for Classical Dance) -->
+                        <div class="angle-toggle-row">
+                            <button class="angle-btn active" id="angle-btn-front" onclick="switchAngle('front')">Front Angle</button>
+                            <button class="angle-btn" id="angle-btn-side" onclick="switchAngle('side')">Side Angle</button>
+                        </div>
+                        <div class="angle-note-box" id="angle-note-text">
+                            Ensure thighs are parallel to ground angle at 45 degrees, feet turned outwards in 180° line.
+                        </div>
+
+                        <!-- CTA to Start Camera Practice -->
+                        <button class="btn-practice-camera-cta" id="btn-practice-trigger" onclick="toggleCameraPractice()">
+                            <span>📷</span> Practice With Camera
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Camera Posture HUD & Nritya AI Tutor Assistant -->
+                <div class="camera-tutor-column" data-aos="fade-left">
+
+                    <!-- Camera Posture HUD -->
+                    <div class="camera-hud-panel">
+                        <div class="camera-hud-header">
+                            <h3><span>🎥</span> Posture Analysis</h3>
+                            <span id="camera-status-indicator" style="font-size: 0.8rem; color: var(--text-dim);">Camera Standby</span>
+                        </div>
+
+                        <!-- Viewport: Video + Skeleton Overlay Canvas -->
+                        <div class="hud-viewport">
+                            <video id="webcam-video" autoplay playsinline muted></video>
+                            <canvas id="pose-canvas" width="640" height="480"></canvas>
+                            <div class="hud-overlay-badge">
+                                <div class="pulse-dot"></div>
+                                <span id="hud-tracking-state">MediaPipe Pose Active</span>
+                            </div>
+                        </div>
+
+                        <!-- Circular Posture Accuracy Score -->
+                        <div class="accuracy-meter-row">
+                            <div>
+                                <div class="accuracy-label">Dance Posture Accuracy</div>
+                                <span style="font-size: 0.78rem; color: var(--text-dim);">Target alignment & joint angles</span>
+                            </div>
+                            <div class="accuracy-score-display" id="posture-score-num">
+                                84%
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Posture Feedback Items -->
+                        <div class="feedback-tags-list" id="feedback-tags-box">
+                            <div class="feedback-tag success">✓ Hand position correct (Pataka Mudra)</div>
+                            <div class="feedback-tag success">✓ Foot position correct in Araimandi</div>
+                            <div class="feedback-tag warning">⚠ Bend your right knee slightly deeper</div>
+                        </div>
+                    </div>
+
+                    <!-- AI Dance Tutor "Nritya" Interactive Widget -->
+                    <div class="ai-tutor-widget">
+                        <div class="tutor-profile-header">
+                            <div class="tutor-avatar-badge">
+                                <div class="tutor-avatar-icon">👩‍🏫</div>
+                                <div class="tutor-name-role">
+                                    <strong>Nritya AI Tutor</strong>
+                                    <span>Personal Dance Master</span>
+                                </div>
+                            </div>
+                            <button class="btn-tutor-voice-toggle" id="btn-voice-toggle" onclick="toggleTutorVoice()">
+                                🔊 Voice On
+                            </button>
+                        </div>
+
+                        <!-- Tutor Speech Bubble -->
+                        <div class="tutor-speech-bubble" id="tutor-speech-text">
+                            “Great job! Try that step once more with focused energy. Keep your right knee slightly bent and ground your weight into the floor.”
+                        </div>
+
+                        <!-- Tutor Q&A Chat Area -->
+                        <div class="tutor-chat-area">
+                            <div class="quick-questions-row">
+                                <button class="quick-q-btn" onclick="askTutorQuick('How do I do this step?')">❓ How do I do this step?</button>
+                                <button class="quick-q-btn" onclick="askTutorQuick('What is Araimandi?')">🪷 Araimandi tips?</button>
+                                <button class="quick-q-btn" onclick="askTutorQuick('Explain the footwork count')">🥁 Explain counts</button>
+                            </div>
+
+                            <div class="tutor-input-box">
+                                <input type="text" id="tutor-query-input" placeholder="Ask Nritya: 'How do I do this step?'..." onkeydown="if(event.key==='Enter') sendTutorMessage()">
+                                <button class="btn-ask-tutor" onclick="sendTutorMessage()">Ask</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Structured Classical Dance Curriculums Section (Bharatnatyam Adavus & Kathak Path) -->
+            <section class="curriculum-section" id="curriculum-container" data-aos="fade-up">
+                <h2 id="curriculum-title">Bharatnatyam Fixed Adavu Curriculum</h2>
+                <p class="subhead" id="curriculum-desc">Classical dance requires strict geometric adherence. Select any predefined Adavu to load its authentic bols, foot patterns, and mudra angles.</p>
+
+                <div class="curriculum-cards-grid" id="curriculum-cards-list">
+                    <!-- Populated via JS with Adavus: Araimandi, Tatta, Natta, Visharu, Tatti Metti, Kuditta Metta, Kattu -->
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 7-Stage AI Video Analysis Modal -->
+        <div class="modal-backdrop" id="ai-analysis-modal">
+            <div class="analysis-modal-card">
+                <div class="radar-scanner-box">
+                    <div class="radar-sweep"></div>
+                    <div class="icon-center">🤖</div>
+                </div>
+
+                <h2>Analyzing Dance Video</h2>
+                <div class="analysis-current-stage-title" id="analysis-stage-title">Stage 1: Analyzing Video</div>
+                <div class="analysis-current-stage-detail" id="analysis-stage-detail">Extracting video frames, spatial resolution & frame-rate (60fps normalization)...</div>
+
+                <!-- Progress Bar -->
+                <div class="ai-progress-bar-wrap">
+                    <div class="ai-progress-bar-fill" id="analysis-progress-fill"></div>
+                </div>
+
+                <div style="font-size: 0.88rem; color: var(--accent-gold); margin-bottom: 1rem;" id="analysis-percent-text">
+                    14% Complete
+                </div>
+
+                <!-- Telemetry Metrics Grid -->
+                <div class="telemetry-grid" id="analysis-telemetry-grid">
+                    <div class="telemetry-item">
+                        <span class="telemetry-label">Frames Decoded:</span>
+                        <span class="telemetry-val" id="tel-frames">360 fps</span>
+                    </div>
+                    <div class="telemetry-item">
+                        <span class="telemetry-label">Optical Flow:</span>
+                        <span class="telemetry-val" id="tel-flow">1420 pts</span>
+                    </div>
+                    <div class="telemetry-item">
+                        <span class="telemetry-label">Pose Confidence:</span>
+                        <span class="telemetry-val" id="tel-conf">98.4%</span>
+                    </div>
+                    <div class="telemetry-item">
+                        <span class="telemetry-label">Rhythm Beat:</span>
+                        <span class="telemetry-val" id="tel-bpm">96 BPM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2026 Nritya AI. Designed with modern AI, Computer Vision & Dance Discipline.
+        </footer>
+
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="dance-data.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="pose-engine.js"></script>
+    <script src="app.js"></script>
+
+    <!-- Studio Controller Logic -->
+    <script>
+        let currentStyleId = 'bharatnatyam';
+        let activeChoreography = null;
+        let currentStepIndex = 0;
+        let isCameraPracticing = false;
+        let activeAngle = 'front';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ once: true });
+
+            // Check URL param ?style=...
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedStyle = urlParams.get('style');
+            if (requestedStyle && window.DANCE_DATA.styles.find(s => s.id === requestedStyle)) {
+                currentStyleId = requestedStyle;
+            }
+
+            renderStylePills();
+            loadStyle(currentStyleId);
+            initCameraEngine();
+        });
+
+        function renderStylePills() {
+            const container = document.getElementById('style-pills-container');
+            if (!container || !window.DANCE_DATA) return;
+
+            container.innerHTML = window.DANCE_DATA.styles.map(style => `
+                <button class="style-pill ${style.id === currentStyleId ? 'active' : ''}" onclick="switchStyle('${style.id}')">
+                    ${style.icon} ${style.name}
+                </button>
+            `).join('');
+        }
+
+        function switchStyle(styleId) {
+            currentStyleId = styleId;
+            renderStylePills();
+            loadStyle(styleId);
+        }
+
+        function loadStyle(styleId) {
+            const style = window.DANCE_DATA.styles.find(s => s.id === styleId);
+            if (!style) return;
+
+            document.getElementById('active-style-label').textContent = style.name;
+            document.getElementById('youtube-url-input').value = style.sampleVideo || '';
+
+            // Load initial mock routine
+            activeChoreography = window.nrityaAIService._generateChoreographyResult(style.sampleVideo, null, styleId);
+            currentStepIndex = 0;
+            renderActiveStep();
+            renderCurriculumSection(style);
+            updateYouTubeEmbed(style.sampleVideo);
+        }
+
+        function renderCurriculumSection(style) {
+            const titleEl = document.getElementById('curriculum-title');
+            const descEl = document.getElementById('curriculum-desc');
+            const listEl = document.getElementById('curriculum-cards-list');
+
+            if (!style.learningPath || style.learningPath.length === 0) {
+                document.getElementById('curriculum-container').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('curriculum-container').style.display = 'block';
+            titleEl.textContent = `${style.name} Structured Learning Curriculum`;
+            descEl.textContent = `${style.description}`;
+
+            listEl.innerHTML = style.learningPath.map((lesson, idx) => `
+                <div class="curriculum-item-card ${idx === 0 ? 'active' : ''}" onclick="selectCurriculumLesson('${lesson.id}')">
+                    <h4>${idx + 1}. ${lesson.name}</h4>
+                    <span class="bol-tag">Rhythm: ${lesson.bols} • ${lesson.tempo}</span>
+                    <p><strong>Mudra:</strong> ${lesson.mudra}</p>
+                    <p style="margin-top: 0.3rem;"><strong>Focus:</strong> ${lesson.focus}</p>
+                </div>
+            `).join('');
+        }
+
+        function selectCurriculumLesson(lessonId) {
+            const style = window.DANCE_DATA.styles.find(s => s.id === currentStyleId);
+            const lesson = style.learningPath.find(l => l.id === lessonId);
+            if (!lesson) return;
+
+            // Highlight card
+            document.querySelectorAll('.curriculum-item-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Replace choreography with this lesson's steps
+            activeChoreography = {
+                title: lesson.name,
+                totalSteps: lesson.steps.length,
+                steps: lesson.steps.map(s => ({
+                    ...s,
+                    frontAngle: lesson.frontAngleNote,
+                    sideAngle: lesson.sideAngleNote,
+                    feedbackChecks: [lesson.focus, 'Mudra locked: ' + lesson.mudra]
+                }))
+            };
+            currentStepIndex = 0;
+            renderActiveStep();
+
+            window.nrityaApp.speak(`Lesson loaded: ${lesson.name}. Focus on ${lesson.focus}`);
+        }
+
+        function updateYouTubeEmbed(url) {
+            const videoId = window.nrityaAIService.extractYouTubeId(url);
+            const iframe = document.getElementById('youtube-iframe');
+            const localVideo = document.getElementById('local-video-player');
+
+            if (videoId) {
+                iframe.style.display = 'block';
+                localVideo.style.display = 'none';
+                iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+            }
+        }
+
+        function renderActiveStep() {
+            if (!activeChoreography || !activeChoreography.steps[currentStepIndex]) return;
+
+            const step = activeChoreography.steps[currentStepIndex];
+            const total = activeChoreography.steps.length;
+
+            document.getElementById('step-progress-indicator').textContent = `Step ${step.num || currentStepIndex + 1} / ${total}`;
+            document.getElementById('step-count-badge').textContent = `Count: ${step.count || '1-4'}`;
+            document.getElementById('step-timestamp-pill').textContent = `⏱ ${step.timestamp || '00:00'}`;
+            document.getElementById('step-duration-pill').textContent = `⏳ ${step.duration || '3s'}`;
+            document.getElementById('step-difficulty-pill').textContent = step.difficulty || 'Intermediate';
+            document.getElementById('step-title-display').textContent = `Step ${step.num || currentStepIndex + 1}: ${step.name}`;
+            document.getElementById('step-desc-display').textContent = step.desc;
+
+            // Update angle notes
+            updateAngleNote(step);
+
+            // Update target pose for posture engine
+            if (window.nrityaPoseEngine && step.targetPoseKey) {
+                window.nrityaPoseEngine.setTargetPose(step.targetPoseKey);
+            }
+
+            // Tutor verbal cue
+            if (isCameraPracticing) {
+                window.nrityaApp.speak(`Step ${step.num}: ${step.name}. Count: ${step.count}`);
+            }
+        }
+
+        function switchAngle(angle) {
+            activeAngle = angle;
+            document.getElementById('angle-btn-front').classList.toggle('active', angle === 'front');
+            document.getElementById('angle-btn-side').classList.toggle('active', angle === 'side');
+            
+            const step = activeChoreography ? activeChoreography.steps[currentStepIndex] : null;
+            if (step) updateAngleNote(step);
+        }
+
+        function updateAngleNote(step) {
+            const noteEl = document.getElementById('angle-note-text');
+            if (activeAngle === 'front') {
+                noteEl.innerHTML = `<strong>Front Perspective:</strong> ${step.frontAngle || 'Maintain horizontal arm planes and centered pelvis line.'}`;
+            } else {
+                noteEl.innerHTML = `<strong>Side Perspective:</strong> ${step.sideAngle || 'Ensure knees bend outward without tilting torso forward.'}`;
+            }
+        }
+
+        function prevStep() {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                renderActiveStep();
+            }
+        }
+
+        function nextStep() {
+            if (activeChoreography && currentStepIndex < activeChoreography.steps.length - 1) {
+                currentStepIndex++;
+                renderActiveStep();
+            } else {
+                window.nrityaApp.addXP(50, 'Completed Full Choreography Sequence');
+                window.nrityaApp.showToast('🎉 Routine completed! +50 XP Awarded!');
+            }
+        }
+
+        function replayStep() {
+            const step = activeChoreography.steps[currentStepIndex];
+            window.nrityaApp.speak(`Replaying ${step.name}. Count ${step.count}`);
+            renderActiveStep();
+        }
+
+        function changeSpeed(val) {
+            const speed = parseFloat(val);
+            window.nrityaApp.showToast(`Playback speed set to ${speed}x`);
+            const localVideo = document.getElementById('local-video-player');
+            if (localVideo) localVideo.playbackRate = speed;
+        }
+
+        // Preset video helpers
+        function applyPresetVideo(styleId) {
+            const style = window.DANCE_DATA.styles.find(s => s.id === styleId);
+            if (style) {
+                switchStyle(styleId);
+                document.getElementById('youtube-url-input').value = style.sampleVideo;
+                window.nrityaApp.showToast(`Loaded preset video for ${style.name}`);
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const videoUrl = URL.createObjectURL(file);
+            const iframe = document.getElementById('youtube-iframe');
+            const localVideo = document.getElementById('local-video-player');
+
+            iframe.style.display = 'none';
+            localVideo.style.display = 'block';
+            localVideo.src = videoUrl;
+            localVideo.play();
+
+            window.nrityaApp.showToast(`Uploaded video: ${file.name}`);
+        }
+
+        // Start 7-Stage AI Video Analysis
+        async function startVideoAnalysis() {
+            const url = document.getElementById('youtube-url-input').value.trim();
+            const modal = document.getElementById('ai-analysis-modal');
+            modal.classList.add('active');
+
+            try {
+                const result = await window.nrityaAIService.analyzeVideo({
+                    url,
+                    styleId: currentStyleId,
+                    onProgress: (prog) => {
+                        document.getElementById('analysis-stage-title').textContent = `Stage ${prog.stageIndex}: ${prog.stageName}`;
+                        document.getElementById('analysis-stage-detail').textContent = prog.detail;
+                        document.getElementById('analysis-progress-fill').style.width = `${prog.percent}%`;
+                        document.getElementById('analysis-percent-text').textContent = `${prog.percent}% Complete`;
+
+                        if (prog.telemetry && prog.telemetry.length >= 4) {
+                            document.getElementById('tel-frames').textContent = prog.telemetry[0].value;
+                            document.getElementById('tel-flow').textContent = prog.telemetry[1].value;
+                            document.getElementById('tel-conf').textContent = prog.telemetry[2].value;
+                            document.getElementById('tel-bpm').textContent = prog.telemetry[3].value;
+                        }
+                    }
+                });
+
+                // Analysis Completed
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    activeChoreography = result.choreography;
+                    currentStepIndex = 0;
+                    renderActiveStep();
+                    updateYouTubeEmbed(url);
+                    window.nrityaApp.showToast('✅ Dance Analysis Complete! 4 Steps Generated.');
+                    window.nrityaApp.speak('Dance analysis complete. I have decomposed the choreography into numbered steps. Let us practice step one!');
+                }, 500);
+
+            } catch (err) {
+                console.error(err);
+                modal.classList.remove('active');
+                window.nrityaApp.showToast('Analysis encountered an issue. Using cached routine.', 'warning');
+            }
+        }
+
+        // MediaPipe Pose & Camera Initialization
+        async function initCameraEngine() {
+            const videoEl = document.getElementById('webcam-video');
+            const canvasEl = document.getElementById('pose-canvas');
+
+            await window.nrityaPoseEngine.init({
+                videoElement: videoEl,
+                canvasElement: canvasEl,
+                onFeedback: (analysis) => {
+                    // Update score
+                    document.getElementById('posture-score-num').textContent = `${analysis.accuracy}%`;
+
+                    // Update tags
+                    const container = document.getElementById('feedback-tags-box');
+                    container.innerHTML = analysis.feedback.map(item => `
+                        <div class="feedback-tag ${item.type}">${item.text}</div>
+                    `).join('');
+                }
+            });
+        }
+
+        async function toggleCameraPractice() {
+            const btn = document.getElementById('btn-practice-trigger');
+            const statusEl = document.getElementById('camera-status-indicator');
+
+            if (!isCameraPracticing) {
+                btn.innerHTML = '<span>⏹</span> Stop Practice';
+                btn.style.background = 'linear-gradient(135deg, #ef4444, #991b1b)';
+                statusEl.textContent = 'Camera Tracking Active';
+                statusEl.style.color = '#86efac';
+
+                const res = await window.nrityaPoseEngine.startCamera();
+                isCameraPracticing = true;
+                window.nrityaApp.speak('Camera practice started. Step back so I can see your shoulders and feet!');
+            } else {
+                window.nrityaPoseEngine.stopCamera();
+                isCameraPracticing = false;
+                btn.innerHTML = '<span>📷</span> Practice With Camera';
+                btn.style.background = 'linear-gradient(135deg, #ff9933 0%, #d45f00 100%)';
+                statusEl.textContent = 'Camera Standby';
+                statusEl.style.color = 'var(--text-dim)';
+            }
+        }
+
+        // AI Tutor Interaction
+        function toggleTutorVoice() {
+            window.nrityaApp.voiceEnabled = !window.nrityaApp.voiceEnabled;
+            const btn = document.getElementById('btn-voice-toggle');
+            btn.textContent = window.nrityaApp.voiceEnabled ? '🔊 Voice On' : '🔇 Voice Off';
+            window.nrityaApp.showToast(window.nrityaApp.voiceEnabled ? 'Tutor voice enabled' : 'Tutor voice muted');
+        }
+
+        function askTutorQuick(question) {
+            document.getElementById('tutor-query-input').value = question;
+            sendTutorMessage();
+        }
+
+        function sendTutorMessage() {
+            const input = document.getElementById('tutor-query-input');
+            const question = input.value.trim();
+            if (!question) return;
+
+            const response = window.nrityaApp.askTutor(question);
+            document.getElementById('tutor-speech-text').innerHTML = `<strong>You asked:</strong> "${question}"<br><br>${response}`;
+            window.nrityaApp.speak(response);
+            input.value = '';
+        }
+    </script>
+
+</body>
+</html>

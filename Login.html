@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in — Nritya AI</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+ 
+    <img class="image-gradient" src="download (10).jpg" alt="gradient" onerror="this.style.display='none'">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+        <header>
+            <a href="index1.html" class="logo-wrap">
+                <div class="logo-badge">🪷</div>
+                <h1 class="logo">AI <span>Nritya</span></h1>
+            </a>
+            <nav>
+                <a href="index1.html">Home</a>
+                <a href="style.html">Style</a>
+                <a href="about.html">About</a>
+                <a href="information.html">Information</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="leaderboard.html">Leaderboard</a>
+            </nav>
+            <div class="header-actions">
+                <a href="SignUp.html" class="btn-signing">Sign up</a>
+            </div>
+        </header>
+    </div>
+ 
+    <div class="auth-wrapper">
+        <div class="auth-box">
+            <a href="index1.html" class="auth-logo">🪷 AI Nritya</a>
+ 
+            <h2>Welcome back</h2>
+            <p class="auth-subtext">Log in to continue your disciplined dance practice</p>
+ 
+            <form id="login-form" onsubmit="handleLoginSubmit(event)">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required value="ananya@nritya.ai">
+                </div>
+ 
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <label for="password" style="margin-bottom: 0;">Password</label>
+                        <a href="#" onclick="handleForgotPassword(event)" style="font-size: 0.8rem; color: var(--accent-orange); text-decoration: none;">Forgot Password?</a>
+                    </div>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required value="dance1234">
+                </div>
+ 
+                <button type="submit" class="auth-submit">Log in</button>
+                <button type="button" class="btn-demo-login" onclick="handleQuickDemoLogin()">⚡ Quick Demo Login (1-Click)</button>
+            </form>
+ 
+            <p class="auth-switch">Don't have an account? <a href="SignUp.html">Create one here</a></p>
+        </div>
+    </div>
+ 
+    <script src="dance-data.js"></script>
+    <script src="ai-service.js"></script>
+    <script src="pose-engine.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            const res = window.nrityaApp.login(email, password);
+            if (res.success) {
+                window.nrityaApp.showToast(`Welcome back, ${res.user.name}! Redirecting to Dashboard...`);
+                setTimeout(() => {
+                    window.location.href = 'style.html';
+                }, 800);
+            } else {
+                alert(res.message);
+            }
+        }
+
+        function handleQuickDemoLogin() {
+            const user = window.nrityaApp.demoLogin();
+            window.nrityaApp.showToast(`Logged in as Demo Dancer (${user.name})!`);
+            setTimeout(() => {
+                window.location.href = 'style.html';
+            }, 700);
+        }
+
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            alert("A password reset link has been simulated. You can also use the 1-click Demo Login!");
+        }
+    </script>
+</body>
+</html>
